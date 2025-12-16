@@ -6,16 +6,16 @@ export default async function NewMomentPage() {
     <>
       <Header />
       <main>
-        <h1>Select a moment</h1>
+        <h1>Seleccioná un momento</h1>
         <ul>
           <li>
-            <Link href="/new/breakfast">Breakfast</Link>
+            <Link href="/new/breakfast">Desayuno</Link>
           </li>
           <li>
-            <Link href="/new/lunch">Lunch</Link>
+            <Link href="/new/lunch">Almuerzo</Link>
           </li>
           <li>
-            <Link href="/new/dinner">Dinner</Link>
+            <Link href="/new/dinner">Cena</Link>
           </li>
         </ul>
       </main>

@@ -15,17 +15,23 @@ export const Header = ({ className }: HeaderProps): ReactElement => {
 
   return (
     <header className={classNames(styles.header, className)}>
-      <nav>
-        <ul>
+      <nav className={styles.nav}>
+        <ul className={styles.navList}>
           <li>
-            <Link href="/">Volver al inicio</Link>
+            <Link href="/" className={styles.navItem}>
+              Volver al inicio
+            </Link>
           </li>
 
           <li>
             {pathname === "/history" ? (
-              <Link href="/new">Registrar una nueva medición</Link>
+              <Link href="/new" className={styles.navItem}>
+                Registrar una nueva medición
+              </Link>
             ) : (
-              <Link href="/history">Ver historial de mediciones</Link>
+              <Link href="/history" className={styles.navItem}>
+                Ver historial de mediciones
+              </Link>
             )}
           </li>
         </ul>
