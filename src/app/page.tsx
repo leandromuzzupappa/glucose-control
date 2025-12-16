@@ -1,23 +1,11 @@
-import Image from "next/image";
 import styles from "./page.module.css";
-import Link from "next/link";
+import { Welcome } from "@/components/Welcome";
+import classNames from "classnames";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Glucose Control</h1>
-      <ul>
-        <li>
-          <Link href="/new">
-            Moment selector
-          </Link>
-        </li>
-        <li>
-          <Link href="/history">
-            My History
-          </Link>
-        </li>
-      </ul>
-    </div>
+    <main className={classNames(styles.main)}>
+      <Welcome />
+    </main>
   );
 }
