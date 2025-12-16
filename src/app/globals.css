@@ -1,6 +1,31 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 16px;
+  --spacing-4: 24px;
+  --spacing-5: 32px;
+  --spacing-6: 40px;
+
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+
+  --fs-sm: clamp(0.64rem, 1.15vi + 0.39rem, 1.13rem);
+  --fs-md: clamp(0.8rem, 1.66vi + 0.44rem, 1.5rem);
+  --fs-lg: clamp(1rem, 2.37vi + 0.48rem, 2rem);
+  --fs-xl: clamp(1.25rem, 3.36vi + 0.51rem, 2.67rem);
+  --fs-xxl: clamp(1.56rem, 4.73vi + 0.53rem, 3.55rem);
+  --fs-xxxl: clamp(1.95rem, 6.61vi + 0.51rem, 4.74rem);
+
+  --background: #fffcf6;
+  --foreground: #511511;
+
+  --clr-yellow: #fdd651;
+  --clr-orange: #f07541;
+  --clr-purple: #ebc4df;
+  --clr-beige: #fef7db;
+  --clr-teal: #1f3d3e;
+  --clr-light-blue: #c0e6ea;
 }
 
 * {
@@ -21,6 +46,7 @@ body {
   font-family: system-ui, Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: var(--spacing-3);
 }
 
 a {
