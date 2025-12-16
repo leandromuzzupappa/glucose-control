@@ -1,0 +1,22 @@
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-3);
+}
+
+.button {
+  background: var(--clr-light-blue);
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius-sm);
+  color: var(--foreground);
+  font-size: var(--fs-xxl);
+  padding-block: var(--spacing-3);
+
+  &:active {
+    background: var(--clr-blue);
+  }
+}
+
+.backspace {
+  background: var(--clr-orange);
+}
