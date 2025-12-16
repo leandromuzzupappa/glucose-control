@@ -1,0 +1,37 @@
+.mealTracker {
+  position: relative;
+}
+
+.title {
+  font-size: var(--fs-xl);
+  margin-block-end: var(--spacing-2);
+  text-wrap: pretty;
+
+  span {
+    text-transform: lowercase;
+  }
+}
+
+.input {
+  inline-size: 100%;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  margin-block-end: var(--spacing-4);
+  padding: var(--spacing-3);
+}
+
+.numpad {
+  margin-block-end: var(--spacing-4);
+}
+
+.submit {
+  background: var(--clr-green);
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius-sm);
+  color: var(--clr-beige);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  inline-size: 100%;
+  padding-block: var(--spacing-4);
+  text-transform: uppercase;
+}

@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { MealTracker } from "@/components/MealTracker";
 
 type MomentPageProps = {
   params: Promise<{
@@ -13,7 +14,7 @@ export const MomentPage = async ({ params }: MomentPageProps) => {
     <>
       <Header />
       <main>
-        <h1>{moment}</h1>
+        <MealTracker moment={moment} />
       </main>
     </>
   );
