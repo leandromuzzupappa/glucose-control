@@ -1,21 +1,23 @@
 import { Header } from "@/components/Header";
 import Link from "next/link";
+import styles from "./page.module.css";
+import { MomentButtonLink } from "@/components/MomentButtonLink";
 
 export default async function NewMomentPage() {
   return (
     <>
       <Header />
       <main>
-        <h1>Seleccioná un momento</h1>
-        <ul>
+        <h1 className={styles.title}>Seleccioná un momento</h1>
+        <ul className={styles.momentList}>
           <li>
-            <Link href="/new/breakfast">Desayuno</Link>
+            <MomentButtonLink href="/new/breakfast" moment="breakfast" />
           </li>
           <li>
-            <Link href="/new/lunch">Almuerzo</Link>
+            <MomentButtonLink href="/new/lunch" moment="lunch" />
           </li>
           <li>
-            <Link href="/new/dinner">Cena</Link>
+            <MomentButtonLink href="/new/dinner" moment="dinner" />
           </li>
         </ul>
       </main>

@@ -1,0 +1,10 @@
+.title {
+  font-size: var(--fs-xxxl);
+  margin-bottom: var(--spacing-4);
+}
+
+.momentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}

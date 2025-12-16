@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Header } from "@/components/Header";
 
 type MomentPageProps = {
   params: Promise<{
@@ -10,12 +10,12 @@ export const MomentPage = async ({ params }: MomentPageProps) => {
   const { moment } = await params;
 
   return (
-    <main>
-      <nav>
-        <Link href="/new">Volver</Link>
-      </nav>
-      <h1>Creating a new entry for: {moment}</h1>
-    </main>
+    <>
+      <Header />
+      <main>
+        <h1>{moment}</h1>
+      </main>
+    </>
   );
 };
 
