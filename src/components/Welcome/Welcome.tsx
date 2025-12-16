@@ -12,20 +12,24 @@ export const Welcome = ({ className }: WelcomeProps): ReactElement => {
 
   return (
     <div className={classNames(styles.welcome, className)}>
-      <h1>Hola Clara!</h1>
+      <h1 className={styles.title}>Hola Clara!</h1>
 
-      <p>
-        Hoy es {date} y son las {time} horas.
+      <p className={styles.dateInfo}>
+        Hoy es <span>{date}</span> y son las <span>{time}</span> horas.
       </p>
 
-      <h2>Qué quieres hacer hoy?</h2>
+      <h2 className={styles.subtitle}>¿Qué queres hacer hoy?</h2>
 
-      <ul>
+      <ul className={styles.optionsList}>
         <li>
-          <Link href="new">Registrar una nueva medición</Link>
+          <Link href="new" className={styles.option}>
+            Registrar una nueva medición
+          </Link>
         </li>
         <li>
-          <Link href="history">Revisar todos mis niveles de glucosa</Link>
+          <Link href="history" className={styles.option}>
+            Revisar todos mis niveles de glucosa
+          </Link>
         </li>
       </ul>
     </div>

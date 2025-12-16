@@ -1,3 +1,45 @@
 .welcome {
   position: relative;
 }
+
+.title {
+  font-size: var(--fs-xxxl);
+  margin-bottom: var(--spacing-4);
+}
+
+.dateInfo {
+  font-size: var(--fs-xl);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-6);
+
+  span {
+    font-weight: bold;
+  }
+}
+
+.subtitle {
+  font-size: var(--fs-xxl);
+  margin-bottom: var(--spacing-4);
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  list-style-type: '';
+}
+
+.option {
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius-sm);
+  display: block;
+  font-weight: 700;
+  padding-block: var(--spacing-5);
+  padding-inline: var(--spacing-4);
+  text-wrap: pretty;
+  text-transform: uppercase;
+
+  &[href="new"] {
+    background: var(--clr-purple);
+  }
+}
