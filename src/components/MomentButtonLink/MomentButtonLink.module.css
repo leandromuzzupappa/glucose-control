@@ -1,0 +1,22 @@
+.momentButtonLink {
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius-sm);
+  display: block;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  padding-block: var(--spacing-5);
+  padding-inline: var(--spacing-4);
+  position: relative;
+
+  &[data-moment='breakfast'] {
+    background-color: var(--clr-yellow);
+  }
+
+  &[data-moment='lunch'] {
+    background-color: var(--clr-orange);
+  }
+
+  &[data-moment='dinner'] {
+    background-color: var(--clr-light-blue);
+  }
+}
