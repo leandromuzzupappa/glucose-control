@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import { MomentButtonLinkProps } from "./MomentButtonLink.types";
 import { useMomentButtonLink } from "./MomentButtonLink.hooks";
-import { DayMomentSpanishEnum } from "@/types/glucoseTypes";
+import { MealTypeSpanishEnum } from "@/types/glucoseTypes";
 
 export const MomentButtonLink = ({
   href,
@@ -20,7 +20,7 @@ export const MomentButtonLink = ({
         href={href}
         data-moment={moment}
       >
-        {DayMomentSpanishEnum[moment]}
+        {MealTypeSpanishEnum[moment]}
       </Link>
     </>
   );

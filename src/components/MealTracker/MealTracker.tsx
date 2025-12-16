@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { ReactElement } from "react";
 import { MealTrackerProps } from "./MealTracker.types";
 import { useMealTracker } from "./MealTracker.hooks";
-import { DayMomentSpanishEnum } from "@/types/glucoseTypes";
+import { MealTypeSpanishEnum } from "@/types/glucoseTypes";
 import { Numpad } from "../Numpad";
 
 export const MealTracker = ({
@@ -18,7 +18,7 @@ export const MealTracker = ({
     <div className={classNames(styles.mealTracker, className)}>
       <h1 className={styles.title}>
         Ingresá cuánto te dió {moment === "dinner" ? "la " : "el "}
-        <span>{DayMomentSpanishEnum[moment]}</span>
+        <span>{MealTypeSpanishEnum[moment]}</span>
       </h1>
       <input
         className={styles.input}

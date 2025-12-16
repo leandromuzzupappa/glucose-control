@@ -1,7 +1,7 @@
-import { DayMomentType } from "@/types/glucoseTypes";
+import { MealType } from "@/types/glucoseTypes";
 
 export type MealTrackerProps = {
-  moment: DayMomentType;
+  moment: MealType;
   className?: string;
 };
 

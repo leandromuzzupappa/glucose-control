@@ -1,6 +1,6 @@
-export type DayMomentType = "breakfast" | "lunch" | "dinner";
+export type MealType = "breakfast" | "lunch" | "dinner";
 
-export enum DayMomentSpanishEnum {
+export enum MealTypeSpanishEnum {
   breakfast = "Desayuno",
   lunch = "Almuerzo",
   dinner = "Cena",
