@@ -1,0 +1,15 @@
+import styles from "./{{pascalCase name}}.module.css";
+import classNames from "classnames";
+import { ReactElement } from "react";
+import { {{pascalCase name}}Props } from "./{{pascalCase name}}.types";
+import { use{{pascalCase name}} } from "./{{pascalCase name}}.hooks";
+
+export const {{pascalCase name}} = ({ className }: {{pascalCase name}}Props): ReactElement => {
+  const { foo } = use{{pascalCase name}}();
+
+  return (
+    <div className={classNames(styles.{{camelCase name}}, className)}>
+      <h1>{{pascalCase name}} - {foo}</h1>
+    </div>
+  );
+};
