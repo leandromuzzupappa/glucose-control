@@ -1,0 +1,70 @@
+.historyTable {
+  margin-block-start: var(--spacing-2);
+  position: relative;
+}
+
+
+.filtersBar {
+  align-items: center;
+  display: grid;
+  gap: var(--spacing-4);
+  grid-template-columns: auto 1fr;
+  margin-block-end: var(--spacing-4);
+
+}
+
+.filterSelect {
+  background: transparent;
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius-sm);
+  color: var(--foreground);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  inline-size: auto;
+  padding-block: var(--spacing-2);
+  padding-inline: var(--spacing-3);
+}
+
+.historyEntries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-7);
+}
+
+.historyEntry {
+  border-inline-start: 4px solid var(--clr-yellow);
+  padding-inline-start: var(--spacing-3);
+}
+
+.entryDate {
+  font-size: var(--fs-lg);
+}
+
+.entryMeal {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  font-size: var(--fs-xxl);
+  font-weight: 700;
+  margin-block-end: var(--spacing-4);
+}
+
+.entryActions {
+  display: flex;
+  gap: var(--spacing-2);
+
+  button {
+    background: transparent;
+    border: 1px solid var(--foreground);
+    border-radius: var(--border-radius-sm);
+    color: var(--foreground);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    inline-size: 100%;
+    padding-block: var(--spacing-2);
+  }
+
+  .deleteButton {
+    background: var(--clr-orange);
+    color: var(--clr-beige);
+  }
+}
