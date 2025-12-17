@@ -1,0 +1,44 @@
+.trackerError {
+  background: var(--background);
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  inset: 0;
+  padding: var(--spacing-3);
+  position: fixed;
+  z-index: 10;
+
+  h2 {
+    border-block-end: 1px solid var(--clr-orange);
+    color: var(--clr-orange);
+    font-size: var(--fs-xxxl);
+    margin-block-end: var(--spacing-4);
+    padding-block-end: var(--spacing-4);
+  }
+
+  h3 {
+    font-size: var(--fs-xl);
+    margin-block-end: var(--spacing-2);
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-top: auto;
+
+  p {
+    font-size: var(--fs-lg);
+  }
+
+  button {
+    background: var(--clr-orange);
+    border: 1px soluid var(--foreground);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    padding-block: var(--spacing-3);
+  }
+}
