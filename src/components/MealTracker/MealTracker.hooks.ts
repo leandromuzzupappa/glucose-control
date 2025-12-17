@@ -3,10 +3,11 @@ import { UseMealTrackerReturnType } from "./MealTracker.types";
 
 export const useMealTracker = (): UseMealTrackerReturnType => {
   const [glucoseLevel, setGlucoseLevel] = useState("");
+  const [hasError, setHasError] = useState(false);
 
   const onGlucoseLevelChange = (value: string) => {
     setGlucoseLevel(value);
   };
 
-  return { glucoseLevel, onGlucoseLevelChange };
+  return { hasError, glucoseLevel, onGlucoseLevelChange };
 };

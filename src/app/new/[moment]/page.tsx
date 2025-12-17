@@ -1,9 +1,10 @@
 import { Header } from "@/components/Header";
 import { MealTracker } from "@/components/MealTracker";
+import { MealType } from "@/types/glucoseTypes";
 
 type MomentPageProps = {
   params: Promise<{
-    moment: string;
+    moment: MealType;
   }>;
 };
 

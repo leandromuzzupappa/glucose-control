@@ -7,12 +7,13 @@ import { MealTrackerProps } from "./MealTracker.types";
 import { useMealTracker } from "./MealTracker.hooks";
 import { MealTypeSpanishEnum } from "@/types/glucoseTypes";
 import { Numpad } from "../Numpad";
+import { TrackerError } from "../TrackerError";
 
 export const MealTracker = ({
   moment,
   className,
 }: MealTrackerProps): ReactElement => {
-  const { glucoseLevel, onGlucoseLevelChange } = useMealTracker();
+  const { hasError, glucoseLevel, onGlucoseLevelChange } = useMealTracker();
 
   return (
     <div className={classNames(styles.mealTracker, className)}>
@@ -24,11 +25,13 @@ export const MealTracker = ({
         className={styles.input}
         value={glucoseLevel}
         type="text"
-        placeholder="120 mg/dL"
+        placeholder="Ej.: 120 mg/dL"
         readOnly
       />
       <Numpad className={styles.numpad} onValueChange={onGlucoseLevelChange} />
       <button className={styles.submit}>Guardar</button>
+
+      {hasError && <TrackerError />}
     </div>
   );
 };
