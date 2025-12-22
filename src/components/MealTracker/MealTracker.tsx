@@ -13,7 +13,8 @@ export const MealTracker = ({
   moment,
   className,
 }: MealTrackerProps): ReactElement => {
-  const { hasError, glucoseLevel, onGlucoseLevelChange } = useMealTracker();
+  const { hasError, glucoseLevel, onGlucoseLevelChange, onStoreGlucoseLevel } =
+    useMealTracker();
 
   return (
     <div className={classNames(styles.mealTracker, className)}>
@@ -29,7 +30,12 @@ export const MealTracker = ({
         readOnly
       />
       <Numpad className={styles.numpad} onValueChange={onGlucoseLevelChange} />
-      <button className={styles.submit}>Guardar</button>
+      <button
+        className={styles.submit}
+        onClick={() => onStoreGlucoseLevel(moment)}
+      >
+        Guardar
+      </button>
 
       {hasError && <TrackerError />}
     </div>
