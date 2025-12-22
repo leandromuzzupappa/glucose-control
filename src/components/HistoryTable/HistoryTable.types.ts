@@ -2,6 +2,7 @@ import { MealType } from "@/types/glucoseTypes";
 
 // Temp
 export type HistoryEntry = {
+  id: string;
   mealType: MealType;
   glucoseLevel: number;
   date: string;
@@ -19,4 +20,5 @@ export type HistoryFilterByType = MealType | "all";
 export type UseHistoryTableReturnType = {
   formatedData: HistoryEntry[];
   onFilterBy: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onDeleteEntry: (id: string) => void;
 };

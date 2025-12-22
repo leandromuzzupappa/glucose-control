@@ -12,7 +12,7 @@ export const HistoryTable = ({
   data,
   className,
 }: HistoryTableProps): ReactElement => {
-  const { formatedData, onFilterBy } = useHistoryTable({
+  const { formatedData, onFilterBy, onDeleteEntry } = useHistoryTable({
     data,
   });
 
@@ -37,7 +37,7 @@ export const HistoryTable = ({
 
       <ul className={styles.historyEntries}>
         {formatedData.map((entry) => (
-          <li key={entry._createdAt} className={styles.historyEntry}>
+          <li key={entry.id} className={styles.historyEntry}>
             <span className={styles.entryDate}>
               {formatTableDate(entry.date)}
             </span>
@@ -50,7 +50,12 @@ export const HistoryTable = ({
             </p>
             <div className={styles.entryActions}>
               <button className={styles.editButton}>Editar</button>
-              <button className={styles.deleteButton}>Eliminar</button>
+              <button
+                className={styles.deleteButton}
+                onClick={() => onDeleteEntry(entry.id)}
+              >
+                Eliminar
+              </button>
             </div>
           </li>
         ))}

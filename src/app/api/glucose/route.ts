@@ -105,3 +105,36 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { id } = (await request.json()) as { id: string };
+
+    console.log("Deleting record with ID:", id);
+
+    const response = await fetch(`https://site-api.datocms.com/items/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
+        Accept: "application/json",
+        "X-Api-Version": "3",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("DatoCMS API Error:", errorData);
+      throw new Error(
+        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting glucose record:", error);
+    return NextResponse.json(
+      { error: "Failed to delete record" },
+      { status: 500 }
+    );
+  }
+}

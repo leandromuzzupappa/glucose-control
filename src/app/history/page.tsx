@@ -3,10 +3,11 @@ import styles from "./page.module.css";
 import { HistoryTable } from "@/components/HistoryTable";
 import { publicClient } from "@/lib/datocms";
 import { GET_ALL_GLUCOSE_RECORDS } from "@/lib/datocms/queries";
+import { HistoryEntry } from "@/components/HistoryTable/HistoryTable.types";
 
 export default async function HistoryPage() {
   const data = await publicClient.request(GET_ALL_GLUCOSE_RECORDS);
-  const entries = data.allGlucoseRecords || [];
+  const entries = (data.allGlucoseRecords || []) as HistoryEntry[];
 
   return (
     <>
