@@ -42,3 +42,9 @@
     background: var(--clr-purple);
   }
 }
+
+.momentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
