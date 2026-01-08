@@ -1,10 +1,14 @@
 import { Header } from "@/components/Header";
 import styles from "./page.module.css";
 import { HistoryTable } from "@/components/HistoryTable";
+import { HistoryClientWrapper } from "@/components/HistoryClientWrapper";
 import { publicClient } from "@/lib/datocms";
 import { GET_ALL_GLUCOSE_RECORDS } from "@/lib/datocms/queries";
 import { HistoryEntry } from "@/components/HistoryTable/HistoryTable.types";
 import { updateGlucoseEntry } from "./actions";
+
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export default async function HistoryPage() {
   const data = await publicClient.request(GET_ALL_GLUCOSE_RECORDS);
@@ -26,7 +30,7 @@ export default async function HistoryPage() {
   };
 
   return (
-    <>
+    <HistoryClientWrapper>
       <Header />
       <main>
         <h1>Historial</h1>
@@ -36,6 +40,6 @@ export default async function HistoryPage() {
           onUpdate={handleUpdate}
         />
       </main>
-    </>
+    </HistoryClientWrapper>
   );
 }

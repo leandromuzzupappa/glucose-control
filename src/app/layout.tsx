@@ -20,6 +20,15 @@ export const metadata: Metadata = {
     description: "Aplicación para el control de la glucosa",
     images: "/favicon.png",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Mi Glucosa",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({

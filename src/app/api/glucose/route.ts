@@ -8,7 +8,15 @@ export async function GET() {
     const data = await publicClient.request(GET_ALL_GLUCOSE_RECORDS);
     console.log("Fetched glucose records:", data);
 
-    return NextResponse.json(data.allGlucoseRecords || []);
+    const response = NextResponse.json(data.allGlucoseRecords || []);
+    response.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
+
+    return response;
   } catch (error) {
     console.error("Error fetching glucose records:", error);
     return NextResponse.json(
