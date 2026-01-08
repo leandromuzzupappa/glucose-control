@@ -37,7 +37,9 @@ export const MealTracker = ({
         Guardar
       </button>
 
-      {hasError && <TrackerError />}
+      {hasError && (
+        <TrackerError mealType={moment} glucoseLevel={glucoseLevel} />
+      )}
     </div>
   );
 };

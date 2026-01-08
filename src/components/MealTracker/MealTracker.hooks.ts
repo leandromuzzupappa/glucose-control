@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { UseMealTrackerReturnType } from "./MealTracker.types";
 import { MealType } from "@/types/glucoseTypes";
+import { useRouter } from "next/navigation";
 
 export const useMealTracker = (): UseMealTrackerReturnType => {
+  const router = useRouter();
+
   const [glucoseLevel, setGlucoseLevel] = useState("");
   const [hasError, setHasError] = useState(false);
 
@@ -19,6 +22,7 @@ export const useMealTracker = (): UseMealTrackerReturnType => {
           mealType: moment,
           glucoseLevel: parseInt(glucoseLevel),
           date: new Date().toISOString(),
+          timestamp: Date.now().toString(),
         }),
       });
 
@@ -28,6 +32,7 @@ export const useMealTracker = (): UseMealTrackerReturnType => {
 
       setGlucoseLevel("");
       setHasError(false);
+      router.push("/");
     } catch (error) {
       setHasError(true);
       console.error("Error storing glucose level:", error);

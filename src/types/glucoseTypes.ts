@@ -18,4 +18,5 @@ export interface GlucoseRecordInput {
   date: string;
   mealType: MealType;
   glucoseLevel: string;
+  timestamp: string;
 }
