@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicClient } from "@/lib/datocms";
 import { GET_ALL_GLUCOSE_RECORDS } from "@/lib/datocms/queries";
-import { GlucoseRecordInput } from "@/types/glucoseTypes";
+import { GlucoseRecord, GlucoseRecordInput } from "@/types/glucoseTypes";
 
 export async function GET() {
   try {
@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
       date: body.date,
       mealType: body.mealType,
       glucoseLevel: body.glucoseLevel,
+      timestamp: body.timestamp,
     });
 
     const modelsResponse = await fetch(
@@ -74,6 +75,7 @@ export async function POST(request: NextRequest) {
             date: body.date,
             meal_type: body.mealType,
             glucose_level: parseInt(body.glucoseLevel.toString()),
+            timestamp: body.timestamp,
           },
           relationships: {
             item_type: {
@@ -134,6 +136,57 @@ export async function DELETE(request: NextRequest) {
     console.error("Error deleting glucose record:", error);
     return NextResponse.json(
       { error: "Failed to delete record" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { id, ...updateData } =
+      (await request.json()) as Partial<GlucoseRecord> & {
+        id: string;
+      };
+
+    console.log("Updating record with ID:", id, "Data:", updateData);
+
+    const attributes: Record<string, unknown> = {};
+    if (updateData.date) attributes.date = updateData.date;
+    if (updateData.mealType) attributes.meal_type = updateData.mealType;
+    if (updateData.glucoseLevel !== undefined)
+      attributes.glucose_level = parseInt(updateData.glucoseLevel.toString());
+
+    const response = await fetch(`https://site-api.datocms.com/items/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
+        "X-Api-Version": "3",
+      },
+      body: JSON.stringify({
+        data: {
+          type: "item",
+          id: id,
+          attributes: attributes,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("DatoCMS API Error:", errorData);
+      throw new Error(
+        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data.data);
+  } catch (error) {
+    console.error("Error updating glucose record:", error);
+    return NextResponse.json(
+      { error: "Failed to update record" },
       { status: 500 }
     );
   }
