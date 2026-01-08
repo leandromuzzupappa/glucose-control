@@ -7,13 +7,24 @@ import { HistoryTableProps } from "./HistoryTable.types";
 import { useHistoryTable } from "./HistoryTable.hooks";
 import { formatTableDate } from "./HistoryTable.utils";
 import { MealTypeSpanishEnum } from "@/types/glucoseTypes";
+import { EditEntryModal } from "@/components/EditEntryModal";
 
 export const HistoryTable = ({
   data,
   className,
+  onUpdate,
 }: HistoryTableProps): ReactElement => {
-  const { formatedData, onFilterBy, onDeleteEntry } = useHistoryTable({
+  const {
+    formatedData,
+    onFilterBy,
+    onDeleteEntry,
+    editingEntry,
+    onEditEntry,
+    onCloseEdit,
+    onSaveEdit,
+  } = useHistoryTable({
     data,
+    onUpdate,
   });
 
   console.log("Lenny - formatedData, breakfast", formatedData);
@@ -49,7 +60,12 @@ export const HistoryTable = ({
               </span>
             </p>
             <div className={styles.entryActions}>
-              <button className={styles.editButton}>Editar</button>
+              <button
+                className={styles.editButton}
+                onClick={() => onEditEntry(entry)}
+              >
+                Editar
+              </button>
               <button
                 className={styles.deleteButton}
                 onClick={() => onDeleteEntry(entry.id)}
@@ -60,6 +76,13 @@ export const HistoryTable = ({
           </li>
         ))}
       </ul>
+
+      <EditEntryModal
+        isOpen={!!editingEntry}
+        entry={editingEntry}
+        onClose={onCloseEdit}
+        onSave={onSaveEdit}
+      />
     </div>
   );
 };
