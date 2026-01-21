@@ -15,13 +15,20 @@ export const useMealTracker = (): UseMealTrackerReturnType => {
 
   const onStoreGlucoseLevel = async (moment: MealType) => {
     try {
+      // Crear fecha en zona horaria local (YYYY-MM-DD)
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const localDate = `${year}-${month}-${day}`;
+
       const res = await fetch("/api/glucose", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           mealType: moment,
           glucoseLevel: parseInt(glucoseLevel),
-          date: new Date().toISOString(),
+          date: localDate,
           timestamp: Date.now().toString(),
         }),
       });
