@@ -1,14 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { publicClient } from "@/lib/datocms";
-import { GET_ALL_GLUCOSE_RECORDS } from "@/lib/datocms/queries";
-import { GlucoseRecord, GlucoseRecordInput } from "@/types/glucoseTypes";
+import { supabase } from "@/lib/supabase";
+import { GlucoseRecordInput, MealType } from "@/types/glucoseTypes";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mapRecordToFrontend = (record: any) => ({
+  id: record.id.toString(), // Convertimos el ID de Supabase (número) a string
+  date: record.date,
+  mealType: record.meal_type as MealType,
+  glucoseLevel: record.glucose_level,
+  _createdAt: record.created_at, 
+  createdAt: record.created_at,
+});
 
 export async function GET() {
   try {
-    const data = await publicClient.request(GET_ALL_GLUCOSE_RECORDS);
-    console.log("Fetched glucose records:", data);
+    // Pedimos todos los registros ordenados por fecha descendente
+    const { data, error } = await supabase
+      .from("glucose_records")
+      .select("*")
+      .order("date", { ascending: false });
 
-    const response = NextResponse.json(data.allGlucoseRecords || []);
+    if (error) throw error;
+
+    console.log(`Fetched ${data?.length} glucose records from Supabase`);
+
+    // Mapeamos los resultados al formato antiguo
+    const formattedData = data ? data.map(mapRecordToFrontend) : [];
+
+    const response = NextResponse.json(formattedData);
     response.headers.set(
       "Cache-Control",
       "no-store, no-cache, must-revalidate, proxy-revalidate"
@@ -30,83 +49,23 @@ export async function POST(request: NextRequest) {
   try {
     const body: GlucoseRecordInput = await request.json();
 
-    console.log("Creating record:", {
-      date: body.date,
-      mealType: body.mealType,
-      glucoseLevel: body.glucoseLevel,
-      timestamp: body.timestamp,
-    });
+    console.log("Creating record in Supabase:", body);
 
-    const modelsResponse = await fetch(
-      "https://site-api.datocms.com/item-types",
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-          Accept: "application/json",
-          "X-Api-Version": "3",
+    const { data, error } = await supabase
+      .from("glucose_records")
+      .insert([
+        {
+          date: body.date,
+          meal_type: body.mealType,
+          glucose_level: parseInt(body.glucoseLevel.toString()),
+          timestamp: body.timestamp,
         },
-      }
-    );
+      ])
+      .select();
 
-    if (!modelsResponse.ok) {
-      throw new Error(`Failed to fetch models: ${modelsResponse.status}`);
-    }
+    if (error) throw error;
 
-    const modelsData = await modelsResponse.json();
-    const glucoseModel = modelsData.data.find(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (model: any) =>
-        model.attributes.api_key === "glucose_record" ||
-        model.attributes.name === "Glucose Record"
-    );
-
-    if (!glucoseModel) {
-      throw new Error(
-        "Glucose Record model not found. Please create it in DatoCMS first."
-      );
-    }
-
-    console.log("Found model:", glucoseModel.id);
-
-    const response = await fetch("https://site-api.datocms.com/items", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-        "X-Api-Version": "3",
-      },
-      body: JSON.stringify({
-        data: {
-          type: "item",
-          attributes: {
-            date: body.date,
-            meal_type: body.mealType,
-            glucose_level: parseInt(body.glucoseLevel.toString()),
-            timestamp: body.timestamp,
-          },
-          relationships: {
-            item_type: {
-              data: {
-                type: "item_type",
-                id: glucoseModel.id,
-              },
-            },
-          },
-        },
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("DatoCMS API Error:", errorData);
-      throw new Error(
-        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
-      );
-    }
-
-    const data = await response.json();
-    return NextResponse.json(data.data);
+    return NextResponse.json(mapRecordToFrontend(data[0]));
   } catch (error) {
     console.error("Error creating glucose record:", error);
     return NextResponse.json(
@@ -122,22 +81,12 @@ export async function DELETE(request: NextRequest) {
 
     console.log("Deleting record with ID:", id);
 
-    const response = await fetch(`https://site-api.datocms.com/items/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-        Accept: "application/json",
-        "X-Api-Version": "3",
-      },
-    });
+    const { error } = await supabase
+      .from("glucose_records")
+      .delete()
+      .eq("id", parseInt(id));
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("DatoCMS API Error:", errorData);
-      throw new Error(
-        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
-      );
-    }
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -151,46 +100,26 @@ export async function DELETE(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { id, ...updateData } =
-      (await request.json()) as Partial<GlucoseRecord> & {
-        id: string;
-      };
+    const { id, ...updateData } = await request.json();
 
     console.log("Updating record with ID:", id, "Data:", updateData);
 
+    // Preparamos los datos en formato snake_case para Supabase
     const attributes: Record<string, unknown> = {};
     if (updateData.date) attributes.date = updateData.date;
     if (updateData.mealType) attributes.meal_type = updateData.mealType;
     if (updateData.glucoseLevel !== undefined)
       attributes.glucose_level = parseInt(updateData.glucoseLevel.toString());
 
-    const response = await fetch(`https://site-api.datocms.com/items/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-        "X-Api-Version": "3",
-      },
-      body: JSON.stringify({
-        data: {
-          type: "item",
-          id: id,
-          attributes: attributes,
-        },
-      }),
-    });
+    const { data, error } = await supabase
+      .from("glucose_records")
+      .update(attributes)
+      .eq("id", parseInt(id))
+      .select();
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("DatoCMS API Error:", errorData);
-      throw new Error(
-        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
-      );
-    }
+    if (error) throw error;
 
-    const data = await response.json();
-    return NextResponse.json(data.data);
+    return NextResponse.json(mapRecordToFrontend(data[0]));
   } catch (error) {
     console.error("Error updating glucose record:", error);
     return NextResponse.json(

@@ -11,12 +11,13 @@ export interface GlucoseRecord {
   date: string;
   mealType: MealType;
   glucoseLevel: number;
-  createdAt: string;
+  createdAt?: string;
+  _createdAt?: string;
 }
 
 export interface GlucoseRecordInput {
   date: string;
   mealType: MealType;
-  glucoseLevel: string;
+  glucoseLevel: string | number;
   timestamp: string;
 }
