@@ -2,8 +2,7 @@ import { Header } from "@/components/Header";
 import styles from "./page.module.css";
 import { HistoryTable } from "@/components/HistoryTable";
 import { HistoryClientWrapper } from "@/components/HistoryClientWrapper";
-import { publicClient } from "@/lib/datocms";
-import { GET_ALL_GLUCOSE_RECORDS } from "@/lib/datocms/queries";
+import { supabase } from "@/lib/supabase";
 import { HistoryEntry } from "@/components/HistoryTable/HistoryTable.types";
 import { updateGlucoseEntry } from "./actions";
 
@@ -11,8 +10,22 @@ export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
 export default async function HistoryPage() {
-  const data = await publicClient.request(GET_ALL_GLUCOSE_RECORDS);
-  const entries = (data.allGlucoseRecords || []) as HistoryEntry[];
+  const { data, error } = await supabase
+    .from("glucose_records")
+    .select("id, date, meal_type, glucose_level, created_at")
+    .order("date", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching glucose records:", error);
+  }
+
+  const entries: HistoryEntry[] = (data || []).map((record) => ({
+    id: String(record.id),
+    date: record.date,
+    mealType: record.meal_type,
+    glucoseLevel: record.glucose_level,
+    _createdAt: record.created_at,
+  }));
 
   const handleUpdate = async (
     id: string,

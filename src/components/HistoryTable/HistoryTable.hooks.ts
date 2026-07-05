@@ -29,19 +29,15 @@ export const useHistoryTable = ({
       const response = await fetch("/api/glucose", {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-          Accept: "application/json",
-          "X-Api-Version": "3",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ id }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("DatoCMS API Error:", errorData);
-        throw new Error(
-          `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
-        );
+        console.error("Supabase API Error:", errorData);
+        throw new Error(`API error: ${response.status} - ${JSON.stringify(errorData)}`);
       }
     } catch (error) {
       setLocalData(data);

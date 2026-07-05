@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { MealType } from "@/types/glucoseTypes";
+import { supabase } from "@/lib/supabase";
 
 type ActionResponse = {
   success: boolean;
@@ -17,21 +18,16 @@ type UpdateGlucoseEntryInput = {
 
 export async function deleteGlucoseEntry(id: string): Promise<ActionResponse> {
   try {
-    const response = await fetch(`https://site-api.datocms.com/items/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-        Accept: "application/json",
-        "X-Api-Version": "3",
-      },
-    });
+    const parsedId = Number.parseInt(id, 10);
+    const recordId = Number.isNaN(parsedId) ? id : parsedId;
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("DatoCMS API Error:", errorData);
-      throw new Error(
-        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
-      );
+    const { error } = await supabase
+      .from("glucose_records")
+      .delete()
+      .eq("id", recordId);
+
+    if (error) {
+      throw error;
     }
 
     revalidatePath("/history");
@@ -47,36 +43,20 @@ export async function updateGlucoseEntry(
   data: UpdateGlucoseEntryInput
 ): Promise<ActionResponse> {
   try {
-    const response = await fetch(
-      `https://site-api.datocms.com/items/${data.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
-          "X-Api-Version": "3",
-        },
-        body: JSON.stringify({
-          data: {
-            type: "item",
-            id: data.id,
-            attributes: {
-              date: data.date,
-              meal_type: data.mealType,
-              glucose_level: parseInt(data.glucoseLevel.toString()),
-            },
-          },
-        }),
-      }
-    );
+    const parsedId = Number.parseInt(data.id, 10);
+    const recordId = Number.isNaN(parsedId) ? data.id : parsedId;
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("DatoCMS API Error:", errorData);
-      throw new Error(
-        `DatoCMS API error: ${response.status} - ${JSON.stringify(errorData)}`
-      );
+    const { error } = await supabase
+      .from("glucose_records")
+      .update({
+        date: data.date,
+        meal_type: data.mealType,
+        glucose_level: Number.parseInt(data.glucoseLevel.toString(), 10),
+      })
+      .eq("id", recordId);
+
+    if (error) {
+      throw error;
     }
 
     revalidatePath("/history");
