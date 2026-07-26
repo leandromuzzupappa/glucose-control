@@ -1,0 +1,35 @@
+.main {
+  margin-inline: auto;
+  max-inline-size: 42rem;
+}
+
+.title {
+  font-size: var(--fs-xxl);
+  margin-block-end: var(--spacing-5);
+}
+
+.entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.entry {
+  border-inline-start: 4px solid var(--clr-light-blue);
+  padding-inline-start: var(--spacing-3);
+}
+
+.date,
+.pulse,
+.empty {
+  font-size: var(--fs-lg);
+}
+
+.reading {
+  font-size: var(--fs-xxl);
+  font-weight: 700;
+}
+
+.reading span {
+  font-size: var(--fs-md);
+}

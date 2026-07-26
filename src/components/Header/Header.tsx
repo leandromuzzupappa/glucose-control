@@ -5,31 +5,33 @@ import styles from "./Header.module.css";
 import classNames from "classnames";
 import { ReactElement } from "react";
 import { HeaderProps } from "./Header.types";
-import { useHeader } from "./Header.hooks";
 import Link from "next/link";
 
-export const Header = ({ className }: HeaderProps): ReactElement => {
+export const Header = ({
+  className,
+  homeHref = "/",
+  historyHref = "/history",
+  newHref = "/new",
+}: HeaderProps): ReactElement => {
   const pathname = usePathname();
-
-  console.log("Current pathname:", pathname);
 
   return (
     <header className={classNames(styles.header, className)}>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li>
-            <Link href="/" className={styles.navItem}>
+            <Link href={homeHref} className={styles.navItem}>
               Volver al inicio
             </Link>
           </li>
 
           <li>
-            {pathname === "/history" ? (
-              <Link href="/new" className={styles.navItem}>
+            {pathname === historyHref ? (
+              <Link href={newHref} className={styles.navItem}>
                 Registrar una nueva medición
               </Link>
             ) : (
-              <Link href="/history" className={styles.navItem}>
+              <Link href={historyHref} className={styles.navItem}>
                 Ver historial de mediciones
               </Link>
             )}

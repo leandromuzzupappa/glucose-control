@@ -33,6 +33,12 @@ export const Welcome = ({ className }: WelcomeProps): ReactElement => {
         <hr />
 
         <li>
+          <Link href="/pressure" className={styles.option}>
+            Controlar mi presión arterial
+          </Link>
+        </li>
+
+        <li>
           <Link href="history" className={styles.option}>
             Ver todo mi historial
           </Link>
