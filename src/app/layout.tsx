@@ -13,18 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mi Glucosa",
-  description: "Aplicación para el control de la glucosa",
+  title: "Mi Salud",
+  description: "Aplicación para el control de glucosa y presión arterial",
   openGraph: {
-    title: "Mi Glucosa",
-    description: "Aplicación para el control de la glucosa",
+    title: "Mi Salud",
+    description: "Aplicación para el control de glucosa y presión arterial",
     images: "/favicon.png",
   },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Mi Glucosa",
+    title: "Mi Salud",
   },
   other: {
     "mobile-web-app-capable": "yes",
