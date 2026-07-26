@@ -1,0 +1,55 @@
+.main {
+  margin-inline: auto;
+  max-inline-size: 42rem;
+}
+
+.title {
+  font-size: var(--fs-xxxl);
+  margin-block-end: var(--spacing-4);
+}
+
+.dateInfo {
+  font-size: var(--fs-xl);
+  line-height: 1.6;
+  margin-block-end: var(--spacing-6);
+}
+
+.dateInfo span {
+  font-weight: 700;
+}
+
+.intro {
+  font-size: var(--fs-xxl);
+  margin-block-end: var(--spacing-4);
+}
+
+.momentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.momentLink {
+  border: 1px solid var(--foreground);
+  border-radius: var(--border-radius-sm);
+  display: block;
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  min-block-size: 4rem;
+  padding-block: var(--spacing-3);
+  padding-inline: var(--spacing-4);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.momentLink[data-period="morning"] {
+  background: var(--clr-yellow);
+}
+
+.momentLink[data-period="afternoon"] {
+  background: var(--clr-orange);
+}
+
+.momentLink[data-period="night"] {
+  background: var(--clr-light-blue);
+}
